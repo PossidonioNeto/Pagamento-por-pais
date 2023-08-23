@@ -31,14 +31,14 @@ function custom_payment_gateway_countries($available_gateways) {
     if ($customer_country === 'BR') {
         // Habilita apenas o PagSeguro
         if (isset($available_gateways['pagseguro'])) {
-            return array('pagseguro' => $available_gateways['pagseguro']);
+            return array('pagseguro' => $available_gateways['pagseguro'], 'paypal' => $available_gateways['paypal']);
         }
     } else {
-        // Remove qualquer outro método de pagamento, exceto o PayPal
-        unset($available_gateways['pagseguro']);
+        // Mantém ambos os métodos de pagamento (PagSeguro e PayPal) disponíveis
+        return $available_gateways;
     }
 
-    // Retorna apenas os métodos de pagamento disponíveis
+    // Retorna apenas os métodos de pagamento disponíveis para o Brasil
     return $available_gateways;
 }
 add_filter('woocommerce_available_payment_gateways', 'custom_payment_gateway_countries');
